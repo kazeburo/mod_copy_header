@@ -49,7 +49,7 @@ static const char *set_copyheaders(cmd_parms *cmd, void *in_dir_config,
                                      const char *header)
 {
     copyheader_dir_config *dir_config = in_dir_config;
-    apr_table_setn(dir_config->headers, header, "1");
+    apr_table_setn(dir_config->headers, header, "on" );
     return NULL;
 }
 
@@ -58,7 +58,7 @@ static const command_rec copyheader_cmds[] =
     AP_INIT_FLAG("CopyHeaderActive", set_copyheaderactive, NULL, DIR_CMD_PERMS,
                  "Limited to 'on' or 'off'"),
     AP_INIT_TAKE1("CopyHeader", set_copyheaders, NULL, DIR_CMD_PERMS,
-                  "a header name for copy to note"),
+                  "a header name to copy to note"),
     {NULL}
 };
 
@@ -97,15 +97,13 @@ static apr_status_t copyheader_filter(ap_filter_t *f,
     apr_table_entry_t *elts = (apr_table_entry_t *)ch->elts;
 
     for (i = 0; i < ch->nelts; i++) {
-      if ( elts[i].val ) {
-          val = apr_table_get(r->err_headers_out, elts[i].key);
-          if ( val == NULL ) {
-              val = apr_table_get(r->headers_out, elts[i].key);
-          }
-          if ( val != NULL ) {
-              apr_table_setn(r->notes, elts[i].key, val);
-          }
-      }
+        val = apr_table_get(r->err_headers_out, elts[i].key);
+        if ( val == NULL ) {
+            val = apr_table_get(r->headers_out, elts[i].key);
+        }
+        if ( val != NULL ) {
+            apr_table_setn(r->notes, elts[i].key, val);
+        }
     }
     ap_remove_output_filter(f);
     return ap_pass_brigade(f->next, b);
