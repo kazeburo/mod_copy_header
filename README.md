@@ -38,7 +38,7 @@ Example
       Header unset X-Test
       LogFormat "... %{X-Testn}" xtest
       CustomLog "logs/access_log" xtest
-   </Location>
+    </Location>
 
 COPYRIGHT & LICENSE
 ================
