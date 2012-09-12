@@ -8,7 +8,7 @@ INSTALLATION
 
 download from http://github.com/kazeburo/mod_copy_header
 
-    # apxs -c -i mod_copy_header.c
+    # apxs -c -i mod_copyheader.c
 
 
 DOCUMENTATION
@@ -27,7 +27,7 @@ DOCUMENTATION
 Example
 ----------------
 
-    LoadModule copyheader_module   modules/mod_copy_header.so
+    LoadModule copyheader_module   modules/mod_copyheader.so
     
     <Location /test>
       ProxyPass http://...
